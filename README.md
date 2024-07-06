@@ -1,66 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Prueba Backend Blendio (Operaciones matematicas):
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Descripcion de proyecto
+Este proyecto contiene una serie de servicios que permiten realizar operaciones matemitcas simples mediante peticiones get y también mediante un comando Artisan.
 
-## About Laravel:
+### Instalación
+1. Clonar el repositorio: 
+    ```bash 
+   git clone https://github.com/ktobarr/prueba-backend-blendio.git
+      ```
+2. Navegar al directorio del proyecto
+    ```bash
+   cd prueba-backend-blendio
+      ```
+3. Instalar las dependencias del proyecto:
+    ```bash
+   composer install
+      ```
+4. Generar la clave de la aplicación:
+    ```bash
+   php artisan key:generate
+      ```
+5. Iniciar el servidor:
+    ```bash
+   php artisan serve
+    ```
+   
+### Uso 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para hacer uso de la API, realizar una petición GET a la ruta:
+   ```bash
+    /{operation}/{operatorA}/{operatorB}
+   ```
+***Posibles operaciones a realizar***:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Para las peticiones las operaciones aceptadas son las siguiente:
+- Suma: **add**
+- Resta: **subtract**
+- Multiplicación: **multiply**
+- División: **divide**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Ejemplo**
+```bash
+/add/10/5
 
-## Learning Laravel
+Respuesta:
+{"result": 15}
+```
+En caso de introducir una operacion invalida, devolverá un error del tipo:
+```bash
+{"error":"Invalid operation"}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Uso como comando
+Es posible realizar las operaciones através de un comando Artisan que toma como argumentos la operacion a realizar y los operandos.
+La estructura es la siguiente:
+```bash
+php artisan operations {operatorA} {operatorB} {operation}
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Las operaciones aceptadas por el comando son las siguiente:
+- Suma: **add**
+- Resta: **subtract**
+- Multiplicación: **multiply**
+- División: **divide**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+En caso de introducir una operacion invalida, devolverá un mensaje de error del tipo
+```bash
+Invalid operation: ad
+```
+### Estructura
+**Endpoints**
 
-## Laravel Sponsors
+GET /{operation}/{operatorA}/{operatorB}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+***Parámetros***:
+- operation (string): tipo de operación (add, subtract,multiply, divide)
+- OperatorA (int): primer operando
+- OperatorB (int): segundo operando
 
-### Premium Partners
+***Servicios***
+- AdditionService: suma dos enteros
+- SubtractionService: resta dos enteros
+- MultiplicationService: múltiplica dos enteros
+- DivisionService: Divide dos enteros
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+***Controlador***
+- OperationsController
 
-## Contributing
+***Enumeraciones***
+- Operation:
+  -     ADDITION: add - SUBTRACTION: subtract - MULTIPLICACION: multiply - DIVISION: divide 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Pruebas unitarias
+- OperationControllerTest
 
-## Code of Conduct
+Para la ejecución de las pruebas unitarias:
+```bash
+php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Observaciones
+Para el desarrollo de esta prueba he creado un servicio por cada operación matemática para poder dividr las responsabilidades y mantener la teoría de que un servicio se encarga de una tarea en específico.
+Al ser un proyecto con operaciones muy sencillas y considerando que este proyecto no crecerá, podría haber creado un solo servicio que lo englobará todo pero he optado por hacer multiples servicios.
